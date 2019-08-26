@@ -1,16 +1,11 @@
 package netty;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 
 /**
  * @ClassName NettyServer
@@ -42,9 +37,9 @@ public class NettyServer {
                 //TCP底层心跳机制，true为开启
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 //true表示关闭，false表示开启，通俗的说，如果要求高实时性，就关闭，如果需要减少网络交互，就开启
-                .childOption(ChannelOption.TCP_NODELAY,false)
+                .childOption(ChannelOption.TCP_NODELAY, false)
                 //用于已完成三次握手请求队列的最大长度，如果连接建立频繁，服务器处理创建新连接较慢，可以适当调大这个参数
-                .option(ChannelOption.SO_BACKLOG,1024);
+                .option(ChannelOption.SO_BACKLOG, 1024);
         bind(serverBootstrap, 1000);
     }
 

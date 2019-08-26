@@ -12,13 +12,13 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName NettyClient
- * @Description TODO
+ * @Description Netty客户端
  * @Author TOPFEEL
  * @Date 2019/8/20 14:48
  * @Version 1.0
  */
 public class NettyClient {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Bootstrap bootstrap = new Bootstrap();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
         bootstrap
@@ -30,7 +30,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel channel) {
-                        channel.pipeline().addLast(new StringDecoder());
+                        //channel.pipeline() 返回的是和这条连接相关的逻辑处理链
+                        //addLast()添加一个逻辑处理器，为了客户端和服务端建立连接成功之后向服务端写数据
+                        channel.pipeline().addLast(new FirstClientHandler());
+
                     }
                 });
         //建立连接

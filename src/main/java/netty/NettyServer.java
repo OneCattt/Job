@@ -35,13 +35,8 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new StringDecoder());
-                        ch.pipeline().addLast(new SimpleChannelInboundHandler<String>() {
-                            @Override
-                            protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) {
-                                System.out.println(s);
-                            }
-                        });
+                        ch.pipeline().addLast(new FirstServerHandler());
+
                     }
                 })
                 //TCP底层心跳机制，true为开启

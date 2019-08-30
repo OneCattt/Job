@@ -3,9 +3,17 @@ package netty;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import netty.protocol.Command;
+import netty.protocol.Packet;
+import netty.protocol.PacketCodeC;
+import netty.protocol.impl.LoginRequestPacket;
+import netty.protocol.impl.LoginResponsePacket;
 
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @ClassName FirstClientHandler
@@ -22,12 +30,19 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
      **/
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(new Date() + ": 客户端写出数据");
-        //1.获取数据
-        ByteBuf buffer = getByteBuf(ctx);
-        //2.写数据
-        ctx.channel().writeAndFlush(buffer);
-
+        System.out.println(new Date()+"：客户端登录开始");
+        LoginRequestPacket loginRequestPacket=new LoginRequestPacket();
+        loginRequestPacket.setUserId(UUID.randomUUID().toString());
+        loginRequestPacket.setUsername("oneCattt");
+        loginRequestPacket.setPassword("pwd");
+        //编码
+        ByteBuf byteBuf= PacketCodeC.ourInstance.encode(ctx.alloc(),loginRequestPacket);
+        ctx.channel().writeAndFlush(byteBuf);
+    }
+    private static Map<Byte, Class<? extends Packet>> packetTypeMap=new HashMap<>();
+    static {
+        packetTypeMap.put(Command.LOGIN_REQUEST,LoginRequestPacket.class);
+        packetTypeMap.put(Command.LOGIN_RESPONSE,LoginResponsePacket.class);
     }
 
     /**
@@ -37,7 +52,16 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf byteBuf = (ByteBuf) msg;
-        System.out.println(new Date() + "服务端返回数据 -> " + byteBuf.toString(Charset.forName("UTF-8")));
+        Packet packet=PacketCodeC.ourInstance.decode(byteBuf);
+        packetTypeMap.forEach((type,className)->{
+            if (type.equals(packet.getVersion())){
+                try {
+                    className.newInstance().doChannelRead(ctx,packet);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

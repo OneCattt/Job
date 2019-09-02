@@ -4,12 +4,13 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import netty.protocol.impl.LoginRequestPacket;
 import netty.protocol.impl.LoginResponsePacket;
+import netty.protocol.impl.MessageRequestPacket;
+import netty.protocol.impl.MessageResponsePacket;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static netty.protocol.Command.LOGIN_REQUEST;
-import static netty.protocol.Command.LOGIN_RESPONSE;
+import static netty.protocol.Command.*;
 
 public class PacketCodeC {
     private static final int MAGIC_NUMBER = 0x12345678;
@@ -21,6 +22,8 @@ public class PacketCodeC {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
         serializerMap = new HashMap<>();
         Serializer serializer = new JsonSerializer();
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);

@@ -50,11 +50,11 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
      * @Description 获取服务端返回数据
      **/
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf byteBuf = (ByteBuf) msg;
         Packet packet=PacketCodeC.ourInstance.decode(byteBuf);
         packetTypeMap.forEach((type,className)->{
-            if (type.equals(packet.getVersion())){
+            if (type.equals(packet.getCommand())){
                 try {
                     className.newInstance().doChannelRead(ctx,packet);
                 } catch (InstantiationException | IllegalAccessException e) {

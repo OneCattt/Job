@@ -2,8 +2,10 @@ package netty.protocol.impl;
 
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import netty.protocol.Command;
 import netty.protocol.Packet;
+import netty.util.LoginUtil;
 
 import java.util.Date;
 
@@ -30,6 +32,7 @@ public class LoginResponsePacket extends Packet{
         LoginResponsePacket loginResponsePacket=(LoginResponsePacket)packet;
         if (loginResponsePacket.getSuccess()){
             System.out.println(new Date()+"客户端登录成功");
+            LoginUtil.markAsLogin(ctx.channel());
         }else {
             System.out.println(new Date()+"客户端登录失败，原因："+loginResponsePacket.getReson());
         }

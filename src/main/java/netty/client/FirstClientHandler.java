@@ -1,13 +1,13 @@
-package netty;
+package netty.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import netty.protocol.Command;
-import netty.protocol.Packet;
-import netty.protocol.PacketCodeC;
-import netty.protocol.impl.LoginRequestPacket;
-import netty.protocol.impl.LoginResponsePacket;
+import netty.Command;
+import netty.impl.LoginRequestPacket;
+import netty.impl.LoginResponsePacket;
+import netty.packet.Packet;
+import netty.packet.PacketCodeC;
 
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * @ClassName FirstClientHandler
- * @Description TODO
+ * @Description 客户端处理类
  * @Author TOPFEEL
  * @Date 2019/8/26 16:15
  * @Version 1.0
@@ -30,19 +30,21 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
      **/
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println(new Date()+"：客户端登录开始");
-        LoginRequestPacket loginRequestPacket=new LoginRequestPacket();
+        System.out.println(new Date() + "：客户端登录开始");
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
         loginRequestPacket.setUserId(UUID.randomUUID().toString());
         loginRequestPacket.setUsername("oneCattt");
         loginRequestPacket.setPassword("pwd");
         //编码
-        ByteBuf byteBuf= PacketCodeC.ourInstance.encode(ctx.alloc(),loginRequestPacket);
+        ByteBuf byteBuf = PacketCodeC.ourInstance.encode(ctx.alloc(), loginRequestPacket);
         ctx.channel().writeAndFlush(byteBuf);
     }
-    private static Map<Byte, Class<? extends Packet>> packetTypeMap=new HashMap<>();
+
+    private static Map<Byte, Class<? extends Packet>> packetTypeMap = new HashMap<>();
+
     static {
-        packetTypeMap.put(Command.LOGIN_REQUEST,LoginRequestPacket.class);
-        packetTypeMap.put(Command.LOGIN_RESPONSE,LoginResponsePacket.class);
+        packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
     }
 
     /**
@@ -52,16 +54,7 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf byteBuf = (ByteBuf) msg;
-        Packet packet=PacketCodeC.ourInstance.decode(byteBuf);
-        packetTypeMap.forEach((type,className)->{
-            if (type.equals(packet.getCommand())){
-                try {
-                    className.newInstance().doChannelRead(ctx,packet);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        Packet packet = PacketCodeC.ourInstance.decode(byteBuf);
     }
 
 

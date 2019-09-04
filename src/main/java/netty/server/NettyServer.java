@@ -1,4 +1,4 @@
-package netty;
+package netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -6,11 +6,15 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import netty.handle.LoginRequestHandle;
+import netty.handle.MessageRequestHandle;
+import netty.packet.PacketDecoder;
+import netty.packet.PacketEncoder;
 
 /**
  * @ClassName NettyServer
- * @Description TODO
- * @Author TOPFEEL
+ * @Description netty服务端
+ * @Author jiangruliang
  * @Date 2019/8/20 14:34
  * @Version 1.0
  */
@@ -30,8 +34,11 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) {
-                        ch.pipeline().addLast(new FirstServerHandler());
-
+                        // ch.pipeline().addLast(new FirstServerHandler());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginRequestHandle());
+                        ch.pipeline().addLast(new MessageRequestHandle());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 })
                 //TCP底层心跳机制，true为开启

@@ -1,13 +1,13 @@
-package netty.protocol;
+package netty;
 
 public interface Serializer {
 
     /**
      * json序列化
      */
-    byte JSON_SERIALIZER=1;
+    byte JSON_SERIALIZER = 1;
 
-    Serializer DEFAULT=new JsonSerializer();
+    Serializer DEFAULT = new JsonSerializer();
 
     /**
      * 序列化算法
@@ -22,5 +22,5 @@ public interface Serializer {
     /**
      * 二进制转换为Java对象
      */
-    <T> T deserialze(Class<T> tClass,byte[] bytes);
+    <T> T deserialze(Class<T> tClass, byte[] bytes);
 }

@@ -1,16 +1,18 @@
-package netty.protocol;
+package netty.packet;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import netty.protocol.impl.LoginRequestPacket;
-import netty.protocol.impl.LoginResponsePacket;
-import netty.protocol.impl.MessageRequestPacket;
-import netty.protocol.impl.MessageResponsePacket;
+import netty.JsonSerializer;
+import netty.Serializer;
+import netty.impl.LoginRequestPacket;
+import netty.impl.LoginResponsePacket;
+import netty.impl.MessageRequestPacket;
+import netty.impl.MessageResponsePacket;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static netty.protocol.Command.*;
+import static netty.Command.*;
 
 public class PacketCodeC {
     private static final int MAGIC_NUMBER = 0x12345678;
@@ -29,9 +31,22 @@ public class PacketCodeC {
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);
     }
 
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator,Packet packet) {
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
         //1.创建ByteBuf对象
         ByteBuf byteBuf = byteBufAllocator.ioBuffer();
+        //2.序列化Java对象
+        byte[] bytes = Serializer.DEFAULT.serialze(packet);
+        //3.实际编码过程
+        byteBuf.writeInt(MAGIC_NUMBER);
+        byteBuf.writeByte(packet.getVersion());
+        byteBuf.writeByte(Serializer.DEFAULT.getSerializerAlgorithm());
+        byteBuf.writeByte(packet.getCommand());
+        byteBuf.writeInt(bytes.length);
+        byteBuf.writeBytes(bytes);
+        return byteBuf;
+    }
+
+    public ByteBuf encode(ByteBuf byteBuf, Packet packet) {
         //2.序列化Java对象
         byte[] bytes = Serializer.DEFAULT.serialze(packet);
         //3.实际编码过程

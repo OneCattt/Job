@@ -1,4 +1,4 @@
-package netty.protocol;
+package netty;
 
 import io.netty.util.AttributeKey;
 
@@ -7,7 +7,7 @@ import io.netty.util.AttributeKey;
  */
 public interface Attributes {
     /**
-     *登录标志
+     * 登录标志
      */
-    AttributeKey<Boolean> LOGIN=AttributeKey.newInstance("login");
+    AttributeKey<Boolean> LOGIN = AttributeKey.newInstance("login");
 }

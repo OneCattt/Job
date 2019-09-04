@@ -1,8 +1,8 @@
-package netty.protocol;
+package netty;
 
 public interface SerializerAlgorithm {
     /**
      * json序列化标识
      */
-    byte JSON=1;
+    byte JSON = 1;
 }

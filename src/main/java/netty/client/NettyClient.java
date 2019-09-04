@@ -1,14 +1,17 @@
-package netty;
+package netty.client;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import netty.protocol.PacketCodeC;
-import netty.protocol.impl.MessageRequestPacket;
+import netty.handle.LoginResponseHandle;
+import netty.handle.MessageReponseHandle;
+import netty.impl.MessageRequestPacket;
+import netty.packet.PacketDecoder;
+import netty.packet.PacketEncoder;
 import netty.util.LoginUtil;
 
 import java.util.Date;
@@ -32,12 +35,15 @@ public class NettyClient {
                 //2.指定io类型为NIO
                 .channel(NioSocketChannel.class)
                 //3.处理逻辑
-                .handler(new ChannelInitializer<Channel>() {
+                .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
-                    protected void initChannel(Channel channel) {
+                    protected void initChannel(SocketChannel ch) {
                         //channel.pipeline() 返回的是和这条连接相关的逻辑处理链
                         //addLast()添加一个逻辑处理器，为了客户端和服务端建立连接成功之后向服务端写数据
-                        channel.pipeline().addLast(new FirstClientHandler());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginResponseHandle());
+                        ch.pipeline().addLast(new MessageReponseHandle());
+                        ch.pipeline().addLast(new PacketEncoder());
 
                     }
                 });
@@ -53,7 +59,7 @@ public class NettyClient {
         bootstrap.connect(host, port).addListener(future -> {
             if (future.isSuccess()) {
                 System.out.println("连接成功！");
-                Channel channel=((ChannelFuture)future).channel();
+                Channel channel = ((ChannelFuture) future).channel();
                 startConsoleThread(channel);
             } else if (retry == 0) {
                 System.err.println("重试次数已用完，放弃连接");
@@ -69,18 +75,17 @@ public class NettyClient {
         });
     }
 
-    private static void startConsoleThread(Channel channel){
-        new Thread(()->{
-            while (!Thread.interrupted()){
-                if (LoginUtil.hasLogin(channel)){
+    private static void startConsoleThread(Channel channel) {
+        new Thread(() -> {
+            while (!Thread.interrupted()) {
+                if (LoginUtil.hasLogin(channel)) {
                     System.out.println("输入消息发送至服务端：");
-                    Scanner scanner=new Scanner(System.in);
-                    String line= scanner.nextLine();
+                    Scanner scanner = new Scanner(System.in);
+                    String line = scanner.nextLine();
 
-                    MessageRequestPacket messageRequestPacket=new MessageRequestPacket();
+                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
                     messageRequestPacket.setMessage(line);
-                    ByteBuf byteBuf= PacketCodeC.ourInstance.encode(channel.alloc(),messageRequestPacket);
-                    channel.writeAndFlush(byteBuf);
+                    channel.writeAndFlush(messageRequestPacket);
                 }
             }
 

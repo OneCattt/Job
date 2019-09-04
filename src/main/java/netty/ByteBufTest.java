@@ -5,18 +5,18 @@ import io.netty.buffer.ByteBufAllocator;
 
 /**
  * @ClassName ByteBufTest
- * @Description TODO
+ * @Description ByteBuf测试
  * @Author TOPFEEL
  * @Date 2019/8/29 14:58
  * @Version 1.0
  */
 public class ByteBufTest {
     public static void main(String[] args) {
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9,100);
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9, 100);
         print("allocate ByteBuf(9, 100)", buffer);
 
         //write 方法改变写指针，写完之后指针未到capacity的时候，buffer 仍然可写
-        buffer.writeBytes(new byte[]{1,2,3,4});
+        buffer.writeBytes(new byte[]{1, 2, 3, 4});
         print("writeBytes(1,2,3,4)", buffer);
 
         //write 方法改变写指针，写完之后写指针未到 capacity 的时候，buffer 仍然可写, 写完 int 类型之后，写指针增加4
@@ -46,16 +46,17 @@ public class ByteBufTest {
         buffer.readBytes(dst);
         print("readBytes(" + dst.length + ")", buffer);
     }
-    public static void print(String action,ByteBuf byteBuf){
-        System.out.println("after============="+action+"=================");
-        System.out.println("capacity():"+byteBuf.capacity());
-        System.out.println("maxCapacity():"+byteBuf.maxCapacity());
-        System.out.println("readerIndx():"+byteBuf.readerIndex());
-        System.out.println("readableBytes():"+byteBuf.readableBytes());
-        System.out.println("isReadable():"+byteBuf.isReadable());
-        System.out.println("writerIndex():"+byteBuf.writerIndex());
-        System.out.println("writableBytes():"+byteBuf.writableBytes());
-        System.out.println("isWritable():"+byteBuf.isWritable());
+
+    public static void print(String action, ByteBuf byteBuf) {
+        System.out.println("after=============" + action + "=================");
+        System.out.println("capacity():" + byteBuf.capacity());
+        System.out.println("maxCapacity():" + byteBuf.maxCapacity());
+        System.out.println("readerIndx():" + byteBuf.readerIndex());
+        System.out.println("readableBytes():" + byteBuf.readableBytes());
+        System.out.println("isReadable():" + byteBuf.isReadable());
+        System.out.println("writerIndex():" + byteBuf.writerIndex());
+        System.out.println("writableBytes():" + byteBuf.writableBytes());
+        System.out.println("isWritable():" + byteBuf.isWritable());
         System.out.println("maxWritableBytes(): " + byteBuf.maxWritableBytes());
         System.out.println();
     }

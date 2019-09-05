@@ -6,8 +6,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
  * @ClassName PacketEncoder
- * @Description TODO
- * @Author TOPFEEL
+ * @Description
+ * @Author jiangruliang
  * @Date 2019/9/3 15:13
  * @Version 1.0
  */

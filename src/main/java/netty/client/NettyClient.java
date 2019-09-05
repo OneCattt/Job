@@ -9,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import netty.handle.LoginResponseHandle;
 import netty.handle.MessageReponseHandle;
+import netty.handle.Spliter;
 import netty.impl.MessageRequestPacket;
 import netty.packet.PacketDecoder;
 import netty.packet.PacketEncoder;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @ClassName NettyClient
  * @Description Netty客户端
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/8/20 14:48
  * @Version 1.0
  */
@@ -40,9 +41,13 @@ public class NettyClient {
                     protected void initChannel(SocketChannel ch) {
                         //channel.pipeline() 返回的是和这条连接相关的逻辑处理链
                         //addLast()添加一个逻辑处理器，为了客户端和服务端建立连接成功之后向服务端写数据
+                        //拒绝非本协议连接
+                        ch.pipeline().addLast(new Spliter());
+                        //解码
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandle());
                         ch.pipeline().addLast(new MessageReponseHandle());
+                        //
                         ch.pipeline().addLast(new PacketEncoder());
 
                     }

@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import netty.handle.LoginRequestHandle;
 import netty.handle.MessageRequestHandle;
+import netty.handle.Spliter;
 import netty.packet.PacketDecoder;
 import netty.packet.PacketEncoder;
 
@@ -35,6 +36,7 @@ public class NettyServer {
                     @Override
                     protected void initChannel(NioSocketChannel ch) {
                         // ch.pipeline().addLast(new FirstServerHandler());
+                        ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandle());
                         ch.pipeline().addLast(new MessageRequestHandle());

@@ -10,10 +10,11 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import netty.handle.LoginResponseHandle;
 import netty.handle.MessageReponseHandle;
 import netty.handle.Spliter;
+import netty.impl.LoginRequestPacket;
 import netty.impl.MessageRequestPacket;
 import netty.packet.PacketDecoder;
 import netty.packet.PacketEncoder;
-import netty.util.LoginUtil;
+import netty.util.SessionUtil;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -81,19 +82,34 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
+        Scanner sc = new Scanner(System.in);
+        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (LoginUtil.hasLogin(channel)) {
-                    System.out.println("输入消息发送至服务端：");
-                    Scanner scanner = new Scanner(System.in);
-                    String line = scanner.nextLine();
+                if (!SessionUtil.hasLogin(channel)) {
+                    System.out.print("输入用户名登录: ");
+                    String username = sc.nextLine();
+                    loginRequestPacket.setUsername(username);
 
-                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
-                    messageRequestPacket.setMessage(line);
-                    channel.writeAndFlush(messageRequestPacket);
+                    // 密码使用默认的
+                    loginRequestPacket.setPassword("pwd");
+                    // 发送登录数据包
+                    channel.writeAndFlush(loginRequestPacket);
+                    waitForLoginResponse();
+                } else {
+                    String toUserId = sc.next();
+                    String message = sc.next();
+                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
                 }
             }
 
         }).start();
+    }
+
+    private static void waitForLoginResponse() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        }
     }
 }

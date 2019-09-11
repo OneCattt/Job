@@ -6,6 +6,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import netty.handle.AuthHandler;
 import netty.handle.LoginRequestHandle;
 import netty.handle.MessageRequestHandle;
 import netty.handle.Spliter;
@@ -39,6 +40,7 @@ public class NettyServer {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandle());
+                        ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestHandle());
                         ch.pipeline().addLast(new PacketEncoder());
                     }

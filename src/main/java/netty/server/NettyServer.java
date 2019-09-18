@@ -6,12 +6,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import netty.handle.AuthHandler;
-import netty.handle.LoginRequestHandle;
-import netty.handle.MessageRequestHandle;
-import netty.handle.Spliter;
-import netty.packet.PacketDecoder;
-import netty.packet.PacketEncoder;
+import netty.codec.PacketDecoder;
+import netty.codec.PacketEncoder;
+import netty.codec.Spliter;
+import netty.server.handle.*;
+
 
 /**
  * @ClassName NettyServer
@@ -32,6 +31,9 @@ public class NettyServer {
                 .group(boss, worker)
                 //io模型
                 .channel(NioServerSocketChannel.class)
+                .option(ChannelOption.SO_BACKLOG,1024)
+                .childOption(ChannelOption.SO_KEEPALIVE,true)
+                .childOption(ChannelOption.TCP_NODELAY,true)
                 //连续数据读写处理
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
@@ -42,6 +44,9 @@ public class NettyServer {
                         ch.pipeline().addLast(new LoginRequestHandle());
                         ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestHandle());
+                        ch.pipeline().addLast(new CreateGroupRequestHandler());
+                        ch.pipeline().addLast(new LogoutRequestHandler());
+
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 })

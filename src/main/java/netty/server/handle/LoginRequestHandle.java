@@ -1,10 +1,11 @@
-package netty.handle;
+package netty.server.handle;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import netty.impl.LoginRequestPacket;
-import netty.impl.LoginResponsePacket;
+import netty.packet.request.LoginRequestPacket;
+import netty.packet.response.LoginResponsePacket;
 import netty.session.Session;
+import netty.util.IDUtil;
 import netty.util.SessionUtil;
 
 import java.util.Date;
@@ -12,8 +13,8 @@ import java.util.UUID;
 
 /**
  * @ClassName LoginRequestHandle
- * @Description TODO
- * @Author TOPFEEL
+ * @Description 登录请求处理
+ * @Author jiangruliang
  * @Date 2019/9/3 15:06
  * @Version 1.0
  */
@@ -26,7 +27,7 @@ public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequest
         if (valid(loginRequestPacket)) {
             //校验成功
             loginResponsePacket.setSuccess(true);
-            String userId = randomUserId();
+            String userId = IDUtil.randomUserId();
             loginResponsePacket.setUserId(userId);
             loginResponsePacket.setUserName(loginRequestPacket.getUsername());
             System.out.println("[" + loginRequestPacket.getUsername() + "]登录成功");
@@ -41,9 +42,7 @@ public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequest
         ctx.channel().writeAndFlush(loginResponsePacket);
     }
 
-    private static String randomUserId() {
-        return UUID.randomUUID().toString().split("-")[0];
-    }
+
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
         return true;

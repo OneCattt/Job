@@ -1,8 +1,10 @@
-package netty.packet;
+package netty.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import netty.packet.Packet;
+import netty.packet.PacketCodeC;
 
 /**
  * @ClassName PacketEncoder

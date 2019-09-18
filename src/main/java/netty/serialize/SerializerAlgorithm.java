@@ -1,4 +1,4 @@
-package netty;
+package netty.serialize;
 
 public interface SerializerAlgorithm {
     /**

@@ -7,7 +7,7 @@ import io.netty.channel.ChannelPromise;
 /**
  * @ClassName outBoundHandlerC
  * @Description TODO
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/9/3 14:27
  * @Version 1.0
  */

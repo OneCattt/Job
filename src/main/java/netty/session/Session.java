@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @ClassName Session
- * @Description TODO
+ * @Description Session
  * @Author jiangruliang
  * @Date 2019/9/11 14:02
  * @Version 1.0

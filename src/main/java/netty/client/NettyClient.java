@@ -4,16 +4,22 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import netty.handle.LoginResponseHandle;
-import netty.handle.MessageReponseHandle;
-import netty.handle.Spliter;
-import netty.impl.LoginRequestPacket;
-import netty.impl.MessageRequestPacket;
-import netty.packet.PacketDecoder;
-import netty.packet.PacketEncoder;
+import netty.client.handle.CreateGroupResponseHandler;
+import netty.client.handle.LoginResponseHandle;
+import netty.client.handle.LogoutResponseHandle;
+import netty.client.handle.MessageReponseHandle;
+
+import netty.codec.PacketDecoder;
+import netty.codec.PacketEncoder;
+import netty.codec.Spliter;
+import netty.command.impl.ConsoleCommandManager;
+import netty.command.impl.LoginConsoleCommand;
+import netty.packet.request.LoginRequestPacket;
+import netty.packet.request.MessageRequestPacket;
 import netty.util.SessionUtil;
 
 import java.util.Date;
@@ -36,6 +42,9 @@ public class NettyClient {
                 .group(workerGroup)
                 //2.指定io类型为NIO
                 .channel(NioSocketChannel.class)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS,5000)
+                .option(ChannelOption.SO_KEEPALIVE,true)
+                .option(ChannelOption.TCP_NODELAY,true)
                 //3.处理逻辑
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
@@ -47,7 +56,9 @@ public class NettyClient {
                         //解码
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandle());
+                        ch.pipeline().addLast(new LogoutResponseHandle());
                         ch.pipeline().addLast(new MessageReponseHandle());
+                        ch.pipeline().addLast(new CreateGroupResponseHandler());
                         //
                         ch.pipeline().addLast(new PacketEncoder());
 
@@ -82,34 +93,20 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
-        Scanner sc = new Scanner(System.in);
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        ConsoleCommandManager consoleCommandManager=new ConsoleCommandManager();
+        LoginConsoleCommand loginConsoleCommand=new LoginConsoleCommand();
+        Scanner scanner=new Scanner(System.in);
         new Thread(() -> {
             while (!Thread.interrupted()) {
                 if (!SessionUtil.hasLogin(channel)) {
-                    System.out.print("输入用户名登录: ");
-                    String username = sc.nextLine();
-                    loginRequestPacket.setUsername(username);
-
-                    // 密码使用默认的
-                    loginRequestPacket.setPassword("pwd");
-                    // 发送登录数据包
-                    channel.writeAndFlush(loginRequestPacket);
-                    waitForLoginResponse();
+                    loginConsoleCommand.exec(scanner,channel);
                 } else {
-                    String toUserId = sc.next();
-                    String message = sc.next();
-                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+                    consoleCommandManager.exec(scanner,channel);
                 }
             }
 
         }).start();
     }
 
-    private static void waitForLoginResponse() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ignored) {
-        }
-    }
+
 }

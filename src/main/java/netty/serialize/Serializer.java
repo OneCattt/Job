@@ -1,4 +1,6 @@
-package netty;
+package netty.serialize;
+
+import netty.serialize.impl.JsonSerializer;
 
 public interface Serializer {
 

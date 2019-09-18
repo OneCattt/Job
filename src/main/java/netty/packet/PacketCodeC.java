@@ -2,17 +2,21 @@ package netty.packet;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import netty.JsonSerializer;
-import netty.Serializer;
-import netty.impl.LoginRequestPacket;
-import netty.impl.LoginResponsePacket;
-import netty.impl.MessageRequestPacket;
-import netty.impl.MessageResponsePacket;
+import netty.packet.request.CreateGroupRequestPacket;
+import netty.packet.request.LogoutRequestPacket;
+import netty.packet.response.CreateGroupResponsePacket;
+import netty.packet.response.LogoutResponsePacket;
+import netty.serialize.impl.JsonSerializer;
+import netty.serialize.Serializer;
+import netty.packet.request.LoginRequestPacket;
+import netty.packet.response.LoginResponsePacket;
+import netty.packet.request.MessageRequestPacket;
+import netty.packet.response.MessageResponsePacket;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static netty.Command.*;
+import static netty.command.Command.*;
 
 public class PacketCodeC {
     public static final int MAGIC_NUMBER = 0x12345678;
@@ -26,6 +30,10 @@ public class PacketCodeC {
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
         packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
         packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
+        packetTypeMap.put(LOGOUT_REQUEST, LogoutRequestPacket.class);
+        packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
+        packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
         serializerMap = new HashMap<>();
         Serializer serializer = new JsonSerializer();
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);

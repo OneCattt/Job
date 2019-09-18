@@ -3,9 +3,9 @@ package netty.client;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import netty.Command;
-import netty.impl.LoginRequestPacket;
-import netty.impl.LoginResponsePacket;
+import netty.command.Command;
+import netty.packet.request.LoginRequestPacket;
+import netty.packet.response.LoginResponsePacket;
 import netty.packet.Packet;
 import netty.packet.PacketCodeC;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 /**
  * @ClassName FirstClientHandler
  * @Description 客户端处理类
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/8/26 16:15
  * @Version 1.0
  */

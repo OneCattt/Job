@@ -1,13 +1,14 @@
-package netty.handle;
+package netty.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import netty.packet.PacketCodeC;
 
+
 /**
  * @ClassName Spliter
- * @Description TODO
+ * @Description 消息拆装-防止拆包、粘包
  * @Author jiangruliang
  * @Date 2019/9/5 9:23
  * @Version 1.0

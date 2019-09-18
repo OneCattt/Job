@@ -1,13 +1,13 @@
-package netty.handle;
+package netty.client.handle;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import netty.impl.MessageResponsePacket;
+import netty.packet.response.MessageResponsePacket;
 
 /**
  * @ClassName MessageReponseHandle
- * @Description TODO
- * @Author TOPFEEL
+ * @Description 消息响应处理
+ * @Author jiangruliang
  * @Date 2019/9/3 15:23
  * @Version 1.0
  */

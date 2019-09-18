@@ -1,15 +1,16 @@
-package netty.packet;
+package netty.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import netty.packet.PacketCodeC;
 
 import java.util.List;
 
 /**
  * @ClassName PacketDecoder
- * @Description TODO
- * @Author TOPFEEL
+ * @Description 包装加码类
+ * @Author jiangruliang
  * @Date 2019/9/3 15:03
  * @Version 1.0
  */

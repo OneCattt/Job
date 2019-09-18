@@ -1,7 +1,7 @@
-package netty.impl;
+package netty.packet.response;
 
 import lombok.Data;
-import netty.Command;
+import netty.command.Command;
 import netty.packet.Packet;
 
 /**

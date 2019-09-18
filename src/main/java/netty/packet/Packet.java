@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @ClassName Packet
  * @Description 包装基类
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/8/30 14:30
  * @Version 1.0
  */

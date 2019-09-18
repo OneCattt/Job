@@ -1,17 +1,17 @@
-package netty.handle;
+package netty.server.handle;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import netty.impl.MessageRequestPacket;
-import netty.impl.MessageResponsePacket;
+import netty.packet.request.MessageRequestPacket;
+import netty.packet.response.MessageResponsePacket;
 import netty.session.Session;
 import netty.util.SessionUtil;
 
 /**
  * @ClassName MessageRequestHandle
  * @Description 消息请求处理
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/9/3 15:11
  * @Version 1.0
  */

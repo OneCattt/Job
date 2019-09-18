@@ -1,11 +1,13 @@
-package netty;
+package netty.serialize.impl;
 
 import com.alibaba.fastjson.JSON;
+import netty.serialize.Serializer;
+import netty.serialize.SerializerAlgorithm;
 
 /**
  * @ClassName JsonSerializer
  * @Description json序列化
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/8/30 14:44
  * @Version 1.0
  */

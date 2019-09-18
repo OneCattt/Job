@@ -1,7 +1,7 @@
-package netty.impl;
+package netty.packet.response;
 
 import lombok.Data;
-import netty.Command;
+import netty.command.Command;
 import netty.packet.Packet;
 
 /**
@@ -12,18 +12,14 @@ import netty.packet.Packet;
  * @Version 1.0
  */
 @Data
-public class LoginResponsePacket extends Packet {
+public class LogoutResponsePacket extends Packet {
     private Boolean success;
 
     private String reson;
 
-    private String userId;
-
-    private String userName;
-
     @Override
     public Byte getCommand() {
-        return Command.LOGIN_RESPONSE;
+        return Command.LOGOUT_RESPONSE;
     }
 
 

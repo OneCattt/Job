@@ -1,14 +1,14 @@
-package netty.impl;
+package netty.packet.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import netty.Command;
+import netty.command.Command;
 import netty.packet.Packet;
 
 /**
  * @ClassName MessageRequestPacket
  * @Description 消息请求包装
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/9/2 14:19
  * @Version 1.0
  */

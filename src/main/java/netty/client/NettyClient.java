@@ -8,10 +8,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import netty.client.handle.CreateGroupResponseHandler;
-import netty.client.handle.LoginResponseHandle;
-import netty.client.handle.LogoutResponseHandle;
-import netty.client.handle.MessageReponseHandle;
+import netty.client.handle.*;
 
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
@@ -59,6 +56,8 @@ public class NettyClient {
                         ch.pipeline().addLast(new LogoutResponseHandle());
                         ch.pipeline().addLast(new MessageReponseHandle());
                         ch.pipeline().addLast(new CreateGroupResponseHandler());
+                        ch.pipeline().addLast(new JoinGroupResponseHandle());
+                        ch.pipeline().addLast(new ListGroupMembersResponseHandle());
                         //
                         ch.pipeline().addLast(new PacketEncoder());
 

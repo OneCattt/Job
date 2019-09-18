@@ -2,16 +2,10 @@ package netty.packet;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import netty.packet.request.CreateGroupRequestPacket;
-import netty.packet.request.LogoutRequestPacket;
-import netty.packet.response.CreateGroupResponsePacket;
-import netty.packet.response.LogoutResponsePacket;
+import netty.packet.request.*;
+import netty.packet.response.*;
 import netty.serialize.impl.JsonSerializer;
 import netty.serialize.Serializer;
-import netty.packet.request.LoginRequestPacket;
-import netty.packet.response.LoginResponsePacket;
-import netty.packet.request.MessageRequestPacket;
-import netty.packet.response.MessageResponsePacket;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +28,10 @@ public class PacketCodeC {
         packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
         packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetTypeMap.put(JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
         serializerMap = new HashMap<>();
         Serializer serializer = new JsonSerializer();
         serializerMap.put(serializer.getSerializerAlgorithm(), serializer);

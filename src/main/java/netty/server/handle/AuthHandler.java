@@ -1,5 +1,6 @@
 package netty.server.handle;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import netty.util.SessionUtil;
@@ -11,7 +12,13 @@ import netty.util.SessionUtil;
  * @Date 2019/9/10 9:01
  * @Version 1.0
  */
+@ChannelHandler.Sharable
 public class AuthHandler extends ChannelInboundHandlerAdapter {
+    public static final AuthHandler INSTANCE=new AuthHandler();
+
+    private AuthHandler(){
+
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

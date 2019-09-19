@@ -1,5 +1,6 @@
 package netty.server.handle;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.packet.request.LoginRequestPacket;
@@ -17,7 +18,13 @@ import java.util.Date;
  * @Date 2019/9/3 15:06
  * @Version 1.0
  */
-public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequestPacket> {
+//加上注解标识，表示该handle是可以多个channel共享的
+@ChannelHandler.Sharable
+public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+    public static final LoginRequestHandler INSTANCE=new LoginRequestHandler();
+    private LoginRequestHandler(){
+
+    }
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) throws Exception {
         System.out.println(new Date() + "收到客户端登录请求......");

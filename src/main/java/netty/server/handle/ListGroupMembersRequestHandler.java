@@ -1,6 +1,7 @@
 package netty.server.handle;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -18,7 +19,14 @@ import java.util.List;
  * @Date 2019/9/18 13:48
  * @Version 1.0
  */
-public class ListGroupMembersRequestHandle extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
+@ChannelHandler.Sharable
+public class ListGroupMembersRequestHandler extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
+
+    public static final ListGroupMembersRequestHandler INSTANCE=new ListGroupMembersRequestHandler();
+
+    private ListGroupMembersRequestHandler(){
+
+    }
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupMembersRequestPacket listGroupMembersRequestPacket) throws Exception {
         //1.将当前的channel加入到要请求的channelGroup里面

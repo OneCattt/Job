@@ -1,5 +1,6 @@
 package netty.server.handle;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -14,7 +15,14 @@ import netty.util.SessionUtil;
  * @Date 2019/9/18 13:48
  * @Version 1.0
  */
-public class JoinGroupRequestHandle extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
+@ChannelHandler.Sharable
+public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
+
+    public static final JoinGroupRequestHandler INSTANCE=new JoinGroupRequestHandler();
+
+    private JoinGroupRequestHandler(){
+
+    }
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket joinGroupRequestPacket) throws Exception {
         //1.将当前的channel加入到要请求的channelGroup里面

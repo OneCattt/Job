@@ -6,8 +6,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import netty.codec.PacketDecoder;
-import netty.codec.PacketEncoder;
 import netty.codec.Spliter;
 import netty.server.handle.*;
 
@@ -31,24 +29,22 @@ public class NettyServer {
                 .group(boss, worker)
                 //io模型
                 .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, 1024)
-                .childOption(ChannelOption.SO_KEEPALIVE, true)
-                .childOption(ChannelOption.TCP_NODELAY, true)
                 //连续数据读写处理
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) {
-                        // ch.pipeline().addLast(new FirstServerHandler());
                         ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketDecoder());
-                        ch.pipeline().addLast(new LoginRequestHandle());
-                        ch.pipeline().addLast(new AuthHandler());
-                        ch.pipeline().addLast(new MessageRequestHandle());
-                        ch.pipeline().addLast(new CreateGroupRequestHandler());
-                        ch.pipeline().addLast(new LogoutRequestHandler());
-                        ch.pipeline().addLast(new JoinGroupRequestHandle());
-                        ch.pipeline().addLast(new ListGroupMembersRequestHandle());
-                        ch.pipeline().addLast(new PacketEncoder());
+                        ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
+                        //
+                        ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
+                        ch.pipeline().addLast(AuthHandler.INSTANCE);
+                        ch.pipeline().addLast(MessageRequestHandler.INSTANCE);
+                        ch.pipeline().addLast(CreateGroupRequestHandler.INSTANCE);
+                        ch.pipeline().addLast(LogoutRequestHandler.INSTANCE);
+                        ch.pipeline().addLast(JoinGroupRequestHandler.INSTANCE);
+                        ch.pipeline().addLast(ListGroupMembersRequestHandler.INSTANCE);
+                        //
+//                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 })
                 //TCP底层心跳机制，true为开启

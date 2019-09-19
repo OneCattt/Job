@@ -1,5 +1,6 @@
 package netty.server.handle;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.packet.request.LogoutRequestPacket;
@@ -13,7 +14,12 @@ import netty.util.SessionUtil;
  * @Date 2019/9/17 16:56
  * @Version 1.0
  */
+@ChannelHandler.Sharable
 public class LogoutRequestHandler extends SimpleChannelInboundHandler<LogoutRequestPacket> {
+    public static final LogoutRequestHandler INSTANCE=new LogoutRequestHandler();
+    private LogoutRequestHandler(){
+
+    }
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LogoutRequestPacket logoutRequestPacket) throws Exception {
         SessionUtil.unBindSession(channelHandlerContext.channel());

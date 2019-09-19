@@ -4,10 +4,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import netty.command.Command;
-import netty.packet.request.LoginRequestPacket;
-import netty.packet.response.LoginResponsePacket;
 import netty.packet.Packet;
 import netty.packet.PacketCodeC;
+import netty.packet.request.LoginRequestPacket;
+import netty.packet.response.LoginResponsePacket;
 
 import java.nio.charset.Charset;
 import java.util.Date;

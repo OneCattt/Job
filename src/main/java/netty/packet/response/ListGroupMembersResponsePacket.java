@@ -21,6 +21,7 @@ public class ListGroupMembersResponsePacket extends Packet {
     private boolean success;
 
     private String groupId;
+
     @Override
     public Byte getCommand() {
         return Command.LIST_GROUP_MEMBERS_RESPONSE;

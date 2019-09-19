@@ -19,12 +19,14 @@ public class SessionUtil {
     private static final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
 
     private static final Map<String, ChannelGroup> groupIdChannelMap = new ConcurrentHashMap<>();
+
     public static void bindSession(Session session, Channel channel) {
         userIdChannelMap.put(session.getUserId(), channel);
         channel.attr(Attributes.SESSION).set(session);
     }
+
     public static void bindGroupId(String groupId, ChannelGroup channelGroup) {
-        groupIdChannelMap.put(groupId,channelGroup);
+        groupIdChannelMap.put(groupId, channelGroup);
     }
 
     public static void unBindSession(Channel channel) {
@@ -37,7 +39,7 @@ public class SessionUtil {
     }
 
     public static boolean hasLogin(Channel channel) {
-        return getSession(channel)!=null;
+        return getSession(channel) != null;
     }
 
     public static Session getSession(Channel channel) {
@@ -47,7 +49,8 @@ public class SessionUtil {
     public static Channel getChannel(String userId) {
         return userIdChannelMap.get(userId);
     }
-    public static ChannelGroup getChannelGroup(String groupId){
+
+    public static ChannelGroup getChannelGroup(String groupId) {
         return groupIdChannelMap.get(groupId);
     }
 }

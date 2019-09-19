@@ -2,7 +2,6 @@ package netty.client.handle;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import netty.packet.response.JoinGroupResponsePacket;
 import netty.packet.response.ListGroupMembersResponsePacket;
 
 /**
@@ -15,10 +14,10 @@ import netty.packet.response.ListGroupMembersResponsePacket;
 public class ListGroupMembersResponseHandle extends SimpleChannelInboundHandler<ListGroupMembersResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ListGroupMembersResponsePacket listGroupMembersResponsePacket) throws Exception {
-        if (listGroupMembersResponsePacket.isSuccess()){
-            System.out.println("群聊:"+listGroupMembersResponsePacket.getGroupId()+"的成员为："+listGroupMembersResponsePacket.getUserList());
-        }else {
-            System.err.println("获取群聊："+listGroupMembersResponsePacket.getGroupId()+"成员失败");
+        if (listGroupMembersResponsePacket.isSuccess()) {
+            System.out.println("群聊:" + listGroupMembersResponsePacket.getGroupId() + "的成员为：" + listGroupMembersResponsePacket.getUserList());
+        } else {
+            System.err.println("获取群聊：" + listGroupMembersResponsePacket.getGroupId() + "成员失败");
         }
 
     }

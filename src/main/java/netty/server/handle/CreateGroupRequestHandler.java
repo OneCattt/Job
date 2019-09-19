@@ -26,23 +26,23 @@ public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<Creat
         List<String> userIdList = createGroupRequestPacket.getUserIdList();
         List<String> userNameList = new ArrayList<>();
         //1.创建一个channel分组
-        ChannelGroup channelGroup=new DefaultChannelGroup(ctx.executor());
+        ChannelGroup channelGroup = new DefaultChannelGroup(ctx.executor());
         //2.筛选出待加入群聊的用户的channel和userName
-        for (String userId:userIdList
-             ) {
-            Channel channel= SessionUtil.getChannel(userId);
-            if (channel!=null){
+        for (String userId : userIdList
+        ) {
+            Channel channel = SessionUtil.getChannel(userId);
+            if (channel != null) {
                 channelGroup.add(channel);
                 userNameList.add(SessionUtil.getSession(channel).getUserName());
             }
         }
         // 3. 创建群聊创建结果的响应
-        CreateGroupResponsePacket createGroupResponsePacket=new CreateGroupResponsePacket();
+        CreateGroupResponsePacket createGroupResponsePacket = new CreateGroupResponsePacket();
         createGroupResponsePacket.setGroupId(IDUtil.randomId());
         createGroupResponsePacket.setUserNameList(userNameList);
         createGroupResponsePacket.setSuccess(true);
         //绑定channelGroup与groupId关系
-        SessionUtil.bindGroupId(createGroupResponsePacket.getGroupId(),channelGroup);
+        SessionUtil.bindGroupId(createGroupResponsePacket.getGroupId(), channelGroup);
         // 4. 给每个客户端发送拉群通知
         channelGroup.writeAndFlush(createGroupResponsePacket);
 

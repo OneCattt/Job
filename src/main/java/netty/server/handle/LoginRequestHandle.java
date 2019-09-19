@@ -9,7 +9,6 @@ import netty.util.IDUtil;
 import netty.util.SessionUtil;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * @ClassName LoginRequestHandle
@@ -41,7 +40,6 @@ public class LoginRequestHandle extends SimpleChannelInboundHandler<LoginRequest
         //登录响应
         ctx.channel().writeAndFlush(loginResponsePacket);
     }
-
 
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {

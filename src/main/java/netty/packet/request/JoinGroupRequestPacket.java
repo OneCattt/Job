@@ -4,8 +4,6 @@ import lombok.Data;
 import netty.command.Command;
 import netty.packet.Packet;
 
-import java.util.List;
-
 /**
  * @ClassName CreateGroupRequestPacket
  * @Description 创建群聊请求
@@ -17,6 +15,7 @@ import java.util.List;
 public class JoinGroupRequestPacket extends Packet {
 
     private String groupId;
+
     @Override
     public Byte getCommand() {
         return Command.JOIN_GROUP_REQUEST;

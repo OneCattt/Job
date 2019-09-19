@@ -14,10 +14,10 @@ import netty.packet.response.JoinGroupResponsePacket;
 public class JoinGroupResponseHandle extends SimpleChannelInboundHandler<JoinGroupResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, JoinGroupResponsePacket joinGroupResponsePacket) throws Exception {
-        if (joinGroupResponsePacket.isSuccess()){
-            System.out.println("加入群聊"+joinGroupResponsePacket.getGroupId()+"成功");
-        }else {
-            System.err.println("加入群聊"+joinGroupResponsePacket.getGroupId()+"失败");
+        if (joinGroupResponsePacket.isSuccess()) {
+            System.out.println("加入群聊" + joinGroupResponsePacket.getGroupId() + "成功");
+        } else {
+            System.err.println("加入群聊" + joinGroupResponsePacket.getGroupId() + "失败");
         }
 
     }

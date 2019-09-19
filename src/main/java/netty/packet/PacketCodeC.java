@@ -4,8 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import netty.packet.request.*;
 import netty.packet.response.*;
-import netty.serialize.impl.JsonSerializer;
 import netty.serialize.Serializer;
+import netty.serialize.impl.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;

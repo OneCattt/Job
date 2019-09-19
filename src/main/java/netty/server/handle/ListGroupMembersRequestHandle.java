@@ -4,9 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
-import netty.packet.request.JoinGroupRequestPacket;
 import netty.packet.request.ListGroupMembersRequestPacket;
-import netty.packet.response.JoinGroupResponsePacket;
 import netty.packet.response.ListGroupMembersResponsePacket;
 import netty.util.SessionUtil;
 
@@ -24,16 +22,16 @@ public class ListGroupMembersRequestHandle extends SimpleChannelInboundHandler<L
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupMembersRequestPacket listGroupMembersRequestPacket) throws Exception {
         //1.将当前的channel加入到要请求的channelGroup里面
-        List<String> userList=new ArrayList<>();
-        ChannelGroup channelGroup= SessionUtil.getChannelGroup(listGroupMembersRequestPacket.getGroupId());
-        for (Channel channel:channelGroup
-             ) {
+        List<String> userList = new ArrayList<>();
+        ChannelGroup channelGroup = SessionUtil.getChannelGroup(listGroupMembersRequestPacket.getGroupId());
+        for (Channel channel : channelGroup
+        ) {
             userList.add(SessionUtil.getSession(channel).getUserName());
 
         }
         channelGroup.add(ctx.channel());
         //2.构造加群响应给客户端
-        ListGroupMembersResponsePacket listGroupMembersResponsePacket=new ListGroupMembersResponsePacket();
+        ListGroupMembersResponsePacket listGroupMembersResponsePacket = new ListGroupMembersResponsePacket();
         listGroupMembersResponsePacket.setSuccess(true);
         listGroupMembersResponsePacket.setGroupId(listGroupMembersRequestPacket.getGroupId());
         listGroupMembersResponsePacket.setUserList(userList);

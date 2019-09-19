@@ -9,14 +9,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import netty.client.handle.*;
-
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
 import netty.codec.Spliter;
 import netty.command.impl.ConsoleCommandManager;
 import netty.command.impl.LoginConsoleCommand;
-import netty.packet.request.LoginRequestPacket;
-import netty.packet.request.MessageRequestPacket;
 import netty.util.SessionUtil;
 
 import java.util.Date;
@@ -39,9 +36,9 @@ public class NettyClient {
                 .group(workerGroup)
                 //2.指定io类型为NIO
                 .channel(NioSocketChannel.class)
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS,5000)
-                .option(ChannelOption.SO_KEEPALIVE,true)
-                .option(ChannelOption.TCP_NODELAY,true)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+                .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.TCP_NODELAY, true)
                 //3.处理逻辑
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
@@ -92,15 +89,15 @@ public class NettyClient {
     }
 
     private static void startConsoleThread(Channel channel) {
-        ConsoleCommandManager consoleCommandManager=new ConsoleCommandManager();
-        LoginConsoleCommand loginConsoleCommand=new LoginConsoleCommand();
-        Scanner scanner=new Scanner(System.in);
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+        Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
             while (!Thread.interrupted()) {
                 if (!SessionUtil.hasLogin(channel)) {
-                    loginConsoleCommand.exec(scanner,channel);
+                    loginConsoleCommand.exec(scanner, channel);
                 } else {
-                    consoleCommandManager.exec(scanner,channel);
+                    consoleCommandManager.exec(scanner, channel);
                 }
             }
 

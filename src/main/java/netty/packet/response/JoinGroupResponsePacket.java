@@ -17,6 +17,7 @@ public class JoinGroupResponsePacket extends Packet {
     private boolean success;
 
     private String groupId;
+
     @Override
     public Byte getCommand() {
         return Command.JOIN_GROUP_RESPONSE;

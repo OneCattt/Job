@@ -18,10 +18,10 @@ public class JoinGroupRequestHandle extends SimpleChannelInboundHandler<JoinGrou
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket joinGroupRequestPacket) throws Exception {
         //1.将当前的channel加入到要请求的channelGroup里面
-        ChannelGroup channelGroup= SessionUtil.getChannelGroup(joinGroupRequestPacket.getGroupId());
+        ChannelGroup channelGroup = SessionUtil.getChannelGroup(joinGroupRequestPacket.getGroupId());
         channelGroup.add(ctx.channel());
         //2.构造加群响应给客户端
-        JoinGroupResponsePacket joinGroupResponsePacket=new JoinGroupResponsePacket();
+        JoinGroupResponsePacket joinGroupResponsePacket = new JoinGroupResponsePacket();
         joinGroupResponsePacket.setSuccess(true);
         joinGroupResponsePacket.setGroupId(joinGroupRequestPacket.getGroupId());
         ctx.channel().writeAndFlush(joinGroupResponsePacket);

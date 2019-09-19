@@ -31,9 +31,9 @@ public class NettyServer {
                 .group(boss, worker)
                 //io模型
                 .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG,1024)
-                .childOption(ChannelOption.SO_KEEPALIVE,true)
-                .childOption(ChannelOption.TCP_NODELAY,true)
+                .option(ChannelOption.SO_BACKLOG, 1024)
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
+                .childOption(ChannelOption.TCP_NODELAY, true)
                 //连续数据读写处理
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override

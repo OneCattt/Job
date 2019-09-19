@@ -3,7 +3,7 @@ package 责任链模式;
 /**
  * @ClassName AbstractHandle
  * @Description TODO
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/9/4 15:19
  * @Version 1.0
  */

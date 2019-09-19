@@ -6,7 +6,7 @@ import 责任链模式.impl.ManagerHandle;
 /**
  * @ClassName HandleTest
  * @Description TODO
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/9/4 15:36
  * @Version 1.0
  */

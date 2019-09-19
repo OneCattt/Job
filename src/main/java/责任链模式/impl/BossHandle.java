@@ -5,7 +5,7 @@ import 责任链模式.AbstractHandle;
 /**
  * @ClassName BossHandle
  * @Description TODO
- * @Author TOPFEEL
+ * @Author jiangruliang
  * @Date 2019/9/4 15:35
  * @Version 1.0
  */

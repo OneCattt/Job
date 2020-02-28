@@ -11,7 +11,7 @@ import netty.packet.response.ListGroupMembersResponsePacket;
  * @Date 2019/9/18 14:11
  * @Version 1.0
  */
-public class ListGroupMembersResponseHandle extends SimpleChannelInboundHandler<ListGroupMembersResponsePacket> {
+public class ListGroupMembersResponseHandler extends SimpleChannelInboundHandler<ListGroupMembersResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ListGroupMembersResponsePacket listGroupMembersResponsePacket) throws Exception {
         if (listGroupMembersResponsePacket.isSuccess()) {

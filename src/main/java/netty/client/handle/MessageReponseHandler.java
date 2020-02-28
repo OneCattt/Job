@@ -11,7 +11,7 @@ import netty.packet.response.MessageResponsePacket;
  * @Date 2019/9/3 15:23
  * @Version 1.0
  */
-public class MessageReponseHandle extends SimpleChannelInboundHandler<MessageResponsePacket> {
+public class MessageReponseHandler extends SimpleChannelInboundHandler<MessageResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageResponsePacket messageResponsePacket) throws Exception {
         String fromUserId = messageResponsePacket.getFromUserId();

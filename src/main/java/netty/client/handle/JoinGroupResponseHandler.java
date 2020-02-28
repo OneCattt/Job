@@ -11,7 +11,7 @@ import netty.packet.response.JoinGroupResponsePacket;
  * @Date 2019/9/18 14:11
  * @Version 1.0
  */
-public class JoinGroupResponseHandle extends SimpleChannelInboundHandler<JoinGroupResponsePacket> {
+public class JoinGroupResponseHandler extends SimpleChannelInboundHandler<JoinGroupResponsePacket> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, JoinGroupResponsePacket joinGroupResponsePacket) throws Exception {
         if (joinGroupResponsePacket.isSuccess()) {
@@ -21,4 +21,5 @@ public class JoinGroupResponseHandle extends SimpleChannelInboundHandler<JoinGro
         }
 
     }
+
 }

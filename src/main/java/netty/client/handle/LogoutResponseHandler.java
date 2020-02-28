@@ -12,7 +12,7 @@ import netty.util.SessionUtil;
  * @Date 2019/9/3 15:19
  * @Version 1.0
  */
-public class LogoutResponseHandle extends SimpleChannelInboundHandler<LogoutResponsePacket> {
+public class LogoutResponseHandler extends SimpleChannelInboundHandler<LogoutResponsePacket> {
 
 
     @Override

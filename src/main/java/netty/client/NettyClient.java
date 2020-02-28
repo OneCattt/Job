@@ -49,12 +49,12 @@ public class NettyClient {
                         ch.pipeline().addLast(new Spliter());
                         //解码
                         ch.pipeline().addLast(new PacketDecoder());
-                        ch.pipeline().addLast(new LoginResponseHandle());
-                        ch.pipeline().addLast(new LogoutResponseHandle());
-                        ch.pipeline().addLast(new MessageReponseHandle());
+                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new LogoutResponseHandler());
+                        ch.pipeline().addLast(new MessageReponseHandler());
                         ch.pipeline().addLast(new CreateGroupResponseHandler());
-                        ch.pipeline().addLast(new JoinGroupResponseHandle());
-                        ch.pipeline().addLast(new ListGroupMembersResponseHandle());
+                        ch.pipeline().addLast(new JoinGroupResponseHandler());
+                        ch.pipeline().addLast(new ListGroupMembersResponseHandler());
                         //
                         ch.pipeline().addLast(new PacketEncoder());
 

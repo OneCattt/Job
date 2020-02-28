@@ -13,7 +13,7 @@ import netty.util.SessionUtil;
  * @Date 2019/9/3 15:19
  * @Version 1.0
  */
-public class LoginResponseHandle extends SimpleChannelInboundHandler<LoginResponsePacket> {
+public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
 
 
     @Override
